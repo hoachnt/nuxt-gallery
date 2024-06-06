@@ -10,7 +10,15 @@ export default defineNuxtConfig({
   ],
 
   runtimeConfig: {
-    public: { directus: { url: process.env.NUXT_PUBLIC_DIRECTUS_URL } },
+    public: {
+      directus: { url: process.env.NUXT_PUBLIC_DIRECTUS_URL },
+      session: {
+        name: "nuxt-session",
+        cookie: {
+          sameSite: "lax",
+        },
+      },
+    },
   },
 
   ui: {
