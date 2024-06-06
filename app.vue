@@ -32,12 +32,12 @@ await getImages();
       'flex flex-col md:block': $router.currentRoute.value.fullPath !== '/',
     }"
   >
-    <UNotifications />
+    <UNotifications class="z-[9999]" />
     <NuxtPage />
     <ImageThumbnailList
       :class="
         $router.currentRoute.value.fullPath !== '/'
-          ? 'opacity-100 z-[9999]'
+          ? 'opacity-100 z-[99]'
           : 'opacity-0 z-[-1]'
       "
     />

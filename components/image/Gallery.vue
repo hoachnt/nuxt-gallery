@@ -22,7 +22,7 @@
       >
         <BottomMenu class="bottom-menu">
           <template #logo>
-            <img src="/logo.jpg" width="29" height="20" />
+            <img src="/logo.svg" width="29" height="20" />
           </template>
           <template #description>
             <div class="flex gap-x-4 items-center">
