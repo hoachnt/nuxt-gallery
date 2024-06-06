@@ -12,6 +12,7 @@ const directusUrl = runtimeConfig.public.directus.url;
 const imageEl: Ref<HTMLImageElement | null> = ref(null);
 const magnifierEl: Ref<HTMLElement | null> = ref(null);
 const imageContainer: Ref<HTMLElement | null> = ref(null);
+const savingImg = ref(false);
 
 // filter
 const filter = ref(false);
@@ -28,10 +29,17 @@ const objectFitSelected = ref(objectsFit.value[0]);
 const filterUpdated = ref(false);
 
 const { images } = useFile();
+const { loggedIn } = useUserSession();
 
 const isSmallScreen = useMediaQuery("(max-width: 1024px)");
-const { currentIndex, isFirstImg, isLastImg, initSwipe, magnifierImage } =
-  useImageGallery();
+const {
+  currentIndex,
+  isFirstImg,
+  isLastImg,
+  initSwipe,
+  magnifierImage,
+  downloadImage,
+} = useImageGallery();
 
 const active = useState();
 const route = useRoute();
@@ -153,6 +161,110 @@ onMounted(() => {
         class="h-full w-full max-w-7xl flex items-center justify-center relative mx-auto"
       >
         <!-- Bottom menu -->
+        <BottomMenu
+          ref="bottomMenu"
+          class="bottom-menu"
+          :class="{ 'right-[350px]': filter }"
+        >
+          <template #description>
+            <p class="bottom-menu-description">Nuxt Image Gallery</p>
+          </template>
+          <!-- Filters -->
+          <template #buttons>
+            <div class="bottom-menu-button">
+              <div v-if="!filter" class="flex gap-x-2 items-center">
+                <!-- back to gallery (desktop & not the first or last image) -->
+                <UTooltip
+                  v-if="!(isFirstImg || isLastImg) || isSmallScreen"
+                  text="Back to gallery"
+                  :shortcuts="['Esc']"
+                >
+                  <UButton
+                    variant="ghost"
+                    color="gray"
+                    to="/"
+                    size="md"
+                    icon="i-heroicons-rectangle-group-20-solid"
+                    aria-label="Back to gallery"
+                    class="back flex transition-colors duration-200"
+                  />
+                </UTooltip>
+                <!-- open filters -->
+                <!-- v-if="loggedIn"  -->
+                <UTooltip text="Add filters">
+                  <UButton
+                    variant="ghost"
+                    color="gray"
+                    size="md"
+                    icon="i-heroicons-paint-brush-20-solid"
+                    aria-label="Add filters on image"
+                    class="hidden lg:flex"
+                    @click="filter = true"
+                  />
+                </UTooltip>
+                <!-- open original -->
+                <UTooltip text="Open in a new tab">
+                  <UButton
+                    variant="ghost"
+                    color="gray"
+                    icon="i-heroicons-arrow-up-right-20-solid"
+                    size="md"
+                    :to="`${directusUrl}/assets/${image.id}`"
+                    target="_blank"
+                    aria-label="Open original image"
+                  />
+                </UTooltip>
+                <!-- download original or modified image -->
+                <UTooltip text="Download">
+                  <UButton
+                    variant="ghost"
+                    color="gray"
+                    icon="i-heroicons-arrow-down-tray-20-solid"
+                    size="md"
+                    class="hidden md:flex"
+                    aria-label="Download original or modified image"
+                    @click="
+                      downloadImage(
+                        image.title,
+                        imageEl as HTMLImageElement,
+                        contrast,
+                        blur,
+                        invert,
+                        saturate,
+                        hueRotate,
+                        sepia
+                      )
+                    "
+                  />
+                </UTooltip>
+              </div>
+
+              <div v-else class="flex gap-x-2 items-center">
+                <UTooltip v-if="loggedIn" text="Save filtered image">
+                  <UButton
+                    :loading="savingImg"
+                    variant="ghost"
+                    color="gray"
+                    icon="i-heroicons-check-20-solid"
+                    class="hidden md:flex"
+                    aria-label="Upload original or modified image to gallery"
+                    @click="console.log('saveImage')"
+                  />
+                </UTooltip>
+                <UTooltip text="Cancel filters">
+                  <UButton
+                    variant="ghost"
+                    color="gray"
+                    icon="i-heroicons-x-mark"
+                    class="hidden md:flex"
+                    aria-label="Upload original or modified image to gallery"
+                    @click="cancelFilter()"
+                  />
+                </UTooltip>
+              </div>
+            </div>
+          </template>
+        </BottomMenu>
         <div
           :class="{ '-translate-x-[100px]': filter }"
           class="transition-all duration-200 overflow-hidden pt-8 flex items-center justify-center w-full h-screen relative"

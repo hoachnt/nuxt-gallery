@@ -107,7 +107,7 @@ export function useImageGallery() {
     }
 
     await useFetch(imageToDownload.value.src, {
-      baseURL: `${config.public.imageApi}/ipx/_/tmdb/`,
+      baseURL: `${config.public.directus.url}/ipx/_/tmdb/`,
     }).then((response) => {
       const blob = response.data.value as Blob;
       const url: string = URL.createObjectURL(blob);
