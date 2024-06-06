@@ -17,5 +17,5 @@ This project is designed to create an image gallery using Nuxt.js integrated wit
 To get started with this repository, clone it and follow the setup instructions to configure Directus with Nuxt.js.
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/nuxt-image-gallery-directus.git
+git clone https://github.com/hoachnt/nuxt-gallery.git
 cd nuxt-image-gallery-directus
