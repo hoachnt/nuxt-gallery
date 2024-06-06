@@ -32,7 +32,7 @@
                 Media Gallery template
               </p>
               <NuxtLink
-                to="https://github.com/Flosciante/nuxt-image-gallery"
+                to="https://github.com/hoachnt/nuxt-gallery"
                 target="blank"
                 class="flex items-center"
               >

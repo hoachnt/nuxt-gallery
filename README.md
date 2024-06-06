@@ -1,75 +1,21 @@
-# Nuxt 3 Minimal Starter
+# Nuxt Image Gallery (Directus Fork)
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This repository is a fork of [Flosciante/nuxt-image-gallery](https://github.com/Flosciante/nuxt-image-gallery), but uses **Directus** instead of **nuxt-hub**, since nuxt-hub requires a lot of extra settings.
 
-## Setup
+## Overview
 
-Make sure to install the dependencies:
+This project is designed to create an image gallery using Nuxt.js integrated with Directus for a more streamlined setup.
 
-```bash
-# npm
-npm install
+## Key Features
 
-# pnpm
-pnpm install
+- Utilizes **Directus** for content management.
+- Forked from **nuxt-hub** based [Flosciante/nuxt-image-gallery](https://github.com/Flosciante/nuxt-image-gallery).
+- Simplified configuration compared to the original **nuxt-hub** integration.
 
-# yarn
-yarn install
+## Getting Started
 
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+To get started with this repository, clone it and follow the setup instructions to configure Directus with Nuxt.js.
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+git clone https://github.com/YOUR_GITHUB_USERNAME/nuxt-image-gallery-directus.git
+cd nuxt-image-gallery-directus
