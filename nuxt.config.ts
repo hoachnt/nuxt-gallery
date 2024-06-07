@@ -7,7 +7,29 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "nuxt-auth-utils",
     "nuxt-directus",
+    "@nuxt/image",
   ],
+
+  image: {
+    format: ["webp", "avif"],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+      "2xl": 1536,
+    },
+    domains: ["directus.hoachnt.com"],
+    provider: "directus",
+    directus: {
+      baseURL: "https://directus.hoachnt.com/assets/",
+      modifiers: {
+        withoutEnlargement: "true",
+      },
+    },
+  },
 
   runtimeConfig: {
     public: {

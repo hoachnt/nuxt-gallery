@@ -19,11 +19,13 @@ const directusUrl = runtimeConfig.public.directus.url;
     }"
   >
     <NuxtLink :to="`/detail/${thumbnail.id}`">
-      <img
+      <NuxtImg
         v-if="thumbnail"
+        provider="directus"
         width="83"
         height="51"
-        :src="`${directusUrl}/assets/${thumbnail.id}`"
+        format="webp"
+        :src="thumbnail.id"
         :alt="thumbnail.key"
         class="object-cover rounded-md transition-all duration-500 hover:brightness-100 w-[83px] h-[51px]"
         :class="

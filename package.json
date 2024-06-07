@@ -12,6 +12,7 @@
   "dependencies": {
     "@directus/sdk": "^16.1.0",
     "@nuxt/fonts": "^0.7.0",
+    "@nuxt/image": "latest",
     "@nuxt/ui": "^2.16.0",
     "@vueuse/nuxt": "^10.10.0",
     "nuxt": "^3.11.2",

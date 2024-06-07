@@ -96,8 +96,10 @@ onMounted(() => {
   <div v-if="image">
     <!-- background -->
     <div class="absolute inset-0 w-full h-full">
-      <img
-        :src="`${directusUrl}/assets/${image.id}`"
+      <NuxtImg
+        provider="directus"
+        :src="image.id"
+        format="webm"
         class="object-cover w-full h-full blur-[70px] brightness-[.2] will-change-[filter]"
         alt=""
       />
@@ -310,10 +312,12 @@ onMounted(() => {
             <div class="relative flex items-center justify-center xl:m-16">
               <div ref="imageContainer">
                 <div class="group">
-                  <img
+                  <NuxtImg
                     v-if="image"
+                    provider="directus"
                     ref="imageEl"
-                    :src="`${directusUrl}/assets/${image.id}`"
+                    format="webp"
+                    :src="image.id"
                     :alt="image.title"
                     class="rounded object-contain transition-all duration-200 block"
                     :class="[

@@ -78,11 +78,14 @@
             class="relative w-full group masonry-item"
           >
             <NuxtLink :to="`/detail/${image.id}`" @click="active = image.id">
-              <img
+              <NuxtImg
                 v-if="image"
+                provider="directus"
                 width="527"
                 height="430"
-                :src="`${directusUrl}/assets/${image.id}`"
+                format="webp"
+                loading="lazy"
+                :src="image.id"
                 :class="{ imageEl: image.id === active }"
                 class="h-auto w-full max-h-[430px] rounded-md transition-all duration-200 border-image brightness-[.8] hover:brightness-100 will-change-[filter] object-cover"
               />
