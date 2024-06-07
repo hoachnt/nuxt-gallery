@@ -85,6 +85,7 @@
                 height="430"
                 format="webp"
                 loading="lazy"
+                :placeholder="[50, 25, 75, 5]"
                 :src="image.id"
                 :class="{ imageEl: image.id === active }"
                 class="h-auto w-full max-h-[430px] rounded-md transition-all duration-200 border-image brightness-[.8] hover:brightness-100 will-change-[filter] object-cover"

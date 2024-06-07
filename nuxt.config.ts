@@ -25,9 +25,6 @@ export default defineNuxtConfig({
     provider: "directus",
     directus: {
       baseURL: "https://directus.hoachnt.com/assets/",
-      modifiers: {
-        withoutEnlargement: "true",
-      },
     },
   },
 

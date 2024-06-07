@@ -8,6 +8,7 @@ interface IImage {
 
 const runtimeConfig = useRuntimeConfig();
 const directusUrl = runtimeConfig.public.directus.url;
+const placeholderUrl = "https://placehold.co/500x300/png";
 
 const imageEl: Ref<HTMLImageElement | null> = ref(null);
 const magnifierEl: Ref<HTMLElement | null> = ref(null);
@@ -317,6 +318,7 @@ onMounted(() => {
                     provider="directus"
                     ref="imageEl"
                     format="webp"
+                    :placeholder="placeholderUrl"
                     :src="image.id"
                     :alt="image.title"
                     class="rounded object-contain transition-all duration-200 block"
