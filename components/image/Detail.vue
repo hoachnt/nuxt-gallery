@@ -318,7 +318,6 @@ onMounted(() => {
                     provider="directus"
                     ref="imageEl"
                     format="webp"
-                    :placeholder="placeholderUrl"
                     :src="image.id"
                     :alt="image.title"
                     class="rounded object-contain transition-all duration-200 block"
