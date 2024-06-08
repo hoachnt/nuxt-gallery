@@ -1,6 +1,10 @@
 <template>
   <div>
-    <section v-if="images" class="relative h-screen gap-[22px] p-4">
+    <section
+      v-if="images"
+      class="relative h-screen gap-[22px] p-4"
+      ref="dropZoneRef"
+    >
       <USlideover
         v-model="isOpen"
         class="flex items-center justify-center"
@@ -16,61 +20,79 @@
           @click="isOpen = false"
         />
       </USlideover>
+
+      <BottomMenu class="bottom-menu">
+        <template #logo>
+          <img src="/logo.svg" width="29" height="20" />
+        </template>
+        <template #description>
+          <div class="flex gap-x-4 items-center">
+            <p
+              class="bottom-menu-description text-sm sm:text-base leading-tight sm:leading-normal"
+            >
+              Media Gallery template
+            </p>
+            <NuxtLink
+              to="https://github.com/hoachnt/nuxt-gallery"
+              target="blank"
+              class="flex items-center"
+            >
+              <UIcon name="i-simple-icons-github" class="w-5 h-5" />
+            </NuxtLink>
+          </div>
+        </template>
+        <template #buttons>
+          <div class="flex gap-x-2">
+            <UButton
+              v-if="loggedIn"
+              :loading="disconnect"
+              icon="i-heroicons-power-20-solid"
+              color="red"
+              variant="ghost"
+              @click="clearSession"
+            />
+            <UButton
+              v-else
+              label="Sign in"
+              color="green"
+              variant="ghost"
+              aria-label="Sign in"
+              class="mr-4 sm:mr-0"
+              @click="isOpen = true"
+            />
+          </div>
+        </template>
+      </BottomMenu>
       <div
         class="w-full"
         :class="{ 'masonry-container': images && images.length }"
       >
-        <BottomMenu class="bottom-menu">
-          <template #logo>
-            <img src="/logo.svg" width="29" height="20" />
-          </template>
-          <template #description>
-            <div class="flex gap-x-4 items-center">
-              <p
-                class="bottom-menu-description text-sm sm:text-base leading-tight sm:leading-normal"
-              >
-                Media Gallery template
-              </p>
-              <NuxtLink
-                to="https://github.com/hoachnt/nuxt-gallery"
-                target="blank"
-                class="flex items-center"
-              >
-                <UIcon name="i-simple-icons-github" class="w-5 h-5" />
-              </NuxtLink>
-            </div>
-          </template>
-          <template #buttons>
-            <div class="flex gap-x-2">
-              <UButton
-                v-if="loggedIn"
-                :loading="disconnect"
-                icon="i-heroicons-power-20-solid"
-                color="red"
-                variant="ghost"
-                @click="clearSession"
-              />
-              <UButton
-                v-else
-                label="Sign in"
-                color="green"
-                variant="ghost"
-                aria-label="Sign in"
-                class="mr-4 sm:mr-0"
-                @click="isOpen = true"
-              />
-            </div>
-          </template>
-        </BottomMenu>
+        <div v-if="loggedIn">
+          <input
+            ref="fileInput"
+            class="hidden"
+            type="file"
+            accept="image/*"
+            @change="fileSelection"
+          />
+          <UploadButton
+            :uploading="uploadingImg"
+            type="submit"
+            class="mb-6"
+            :is-over-drop-zone="isOverDropZone"
+            @click="openFilePicker"
+          />
+        </div>
         <div
-          class="text-2xl text-white flex flex-col gap-y-4 items-center justify-center h-full w-full pb-8"
+          v-else
+          class="text-2xl text-white flex flex-col gap-y-6 items-center justify-center h-full w-full pb-8"
         >
           <h1 class="font-medium text-5xl">Welcome to image gallery</h1>
           <p class="text-gray-400">
             You must be logged in to start uploading images
           </p>
         </div>
-        <ul v-if="images && images.length" class="grid grid-cols-1 gap-4">
+        <ul v-if="images && images.length" class="grid grid-cols-1 gap-6">
           <li
             v-for="image in images"
             ref="mansoryItem"
@@ -112,17 +134,50 @@
 const runtimeConfig = useRuntimeConfig();
 const directusUrl = runtimeConfig.public.directus.url;
 
+const dropZoneRef = ref<HTMLElement>();
+const fileInput = ref<HTMLInputElement>();
+const mansoryItem = ref<Array<HTMLElement>>([]);
 const active = useState();
 const disconnect = ref(false);
 const isOpen = ref(false);
+const uploadingImg = ref(false);
 
-const { images } = useFile();
+const { uploadImage, images } = useFile();
 const { loggedIn, clear } = useUserSession();
+const toast = useToast();
+
+const { isOverDropZone } = useDropZone(dropZoneRef, onDrop);
+
+function openFilePicker() {
+  fileInput.value?.click();
+}
+
+async function fileSelection(event: Event) {
+  const target = event.target as HTMLInputElement;
+  target.files?.[0] && (await uploadFile(target.files[0]));
+}
+
+async function onDrop(files: File[] | null) {
+  files && (await uploadFile(files[0]));
+}
 
 async function clearSession() {
   disconnect.value = true;
 
   await clear().finally(() => (disconnect.value = false));
+}
+async function uploadFile(file: File) {
+  uploadingImg.value = true;
+
+  await uploadImage(file)
+    .catch(() =>
+      toast.add({
+        title: "An error occured",
+        description: "Please try again",
+        color: "red",
+      })
+    )
+    .finally(() => (uploadingImg.value = false));
 }
 </script>
 
@@ -145,7 +200,6 @@ async function clearSession() {
   .masonry-item,
   .upload {
     display: inline-block;
-    margin: 0 0 20px;
     -webkit-column-break-inside: avoid;
     page-break-inside: avoid;
     break-inside: avoid;

@@ -8,7 +8,6 @@ interface IImage {
 
 const runtimeConfig = useRuntimeConfig();
 const directusUrl = runtimeConfig.public.directus.url;
-const placeholderUrl = "https://placehold.co/500x300/png";
 
 const imageEl: Ref<HTMLImageElement | null> = ref(null);
 const magnifierEl: Ref<HTMLElement | null> = ref(null);
@@ -100,7 +99,7 @@ onMounted(() => {
       <NuxtImg
         provider="directus"
         :src="image.id"
-        format="webm"
+        format="webp"
         class="object-cover w-full h-full blur-[70px] brightness-[.2] will-change-[filter]"
         alt=""
       />
@@ -313,12 +312,12 @@ onMounted(() => {
             <div class="relative flex items-center justify-center xl:m-16">
               <div ref="imageContainer">
                 <div class="group">
-                  <NuxtImg
+                  <img
                     v-if="image"
                     provider="directus"
                     ref="imageEl"
                     format="webp"
-                    :src="image.id"
+                    :src="`${directusUrl}/assets/${image.id}`"
                     :alt="image.title"
                     class="rounded object-contain transition-all duration-200 block"
                     :class="[

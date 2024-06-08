@@ -63,6 +63,12 @@ export function useImageGallery() {
     hueRotate: number,
     sepia: number
   ) => {
+    if (!(poster instanceof HTMLImageElement)) {
+      throw new TypeError(
+        "The provided poster is not a valid HTMLImageElement"
+      );
+    }
+
     const canvas: HTMLCanvasElement = document.createElement("canvas");
     const context: CanvasRenderingContext2D | null = canvas.getContext("2d");
 
@@ -92,31 +98,35 @@ export function useImageGallery() {
     hueRotate: number,
     sepia: number
   ) => {
-    await applyFilters(
-      poster,
-      contrast,
-      blur,
-      invert,
-      saturate,
-      hueRotate,
-      sepia
-    );
+    try {
+      await applyFilters(
+        poster,
+        contrast,
+        blur,
+        invert,
+        saturate,
+        hueRotate,
+        sepia
+      );
 
-    if (!imageToDownload.value) {
-      return;
-    }
+      if (!imageToDownload.value) {
+        return;
+      }
 
-    await useFetch(imageToDownload.value.src, {
-      baseURL: `${config.public.directus.url}/ipx/_/tmdb/`,
-    }).then((response) => {
+      const response = await useFetch(imageToDownload.value.src, {
+        baseURL: `${config.public.directus.url}/ipx/_/tmdb/`,
+      });
+
       const blob = response.data.value as Blob;
-      const url: string = URL.createObjectURL(blob);
-      const link: HTMLAnchorElement = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
 
       link.setAttribute("href", url);
       link.setAttribute("download", filename);
       link.click();
-    });
+    } catch (error) {
+      console.error("Error downloading image:", error);
+    }
   };
 
   const magnifierImage = (
