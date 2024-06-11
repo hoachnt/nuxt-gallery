@@ -99,6 +99,14 @@
             :key="image.id"
             class="relative w-full group masonry-item"
           >
+            <UButton
+              v-if="loggedIn"
+              :loading="deletingImg === image.id"
+              color="white"
+              icon="i-heroicons-trash-20-solid"
+              class="absolute top-4 right-4 z-[9999] opacity-0 group-hover:opacity-100"
+              @click="deleteFile(image.id)"
+            />
             <NuxtLink :to="`/detail/${image.id}`" @click="active = image.id">
               <NuxtImg
                 v-if="image"
@@ -141,8 +149,9 @@ const active = useState();
 const disconnect = ref(false);
 const isOpen = ref(false);
 const uploadingImg = ref(false);
+const deletingImg = ref("");
 
-const { uploadImage, images } = useFile();
+const { uploadImage, deleteImage, images } = useFile();
 const { loggedIn, clear } = useUserSession();
 const toast = useToast();
 
@@ -178,6 +187,19 @@ async function uploadFile(file: File) {
       })
     )
     .finally(() => (uploadingImg.value = false));
+}
+async function deleteFile(id: string) {
+  deletingImg.value = id;
+
+  await deleteImage(id)
+    .catch(() =>
+      toast.add({
+        title: "An error occured",
+        description: "Please try again",
+        color: "red",
+      })
+    )
+    .finally(() => (deletingImg.value = ""));
 }
 </script>
 

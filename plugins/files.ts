@@ -36,11 +36,18 @@ export default defineNuxtPlugin(() => {
     }
   }
 
+  async function deleteImage(id: string) {
+    await $fetch(`/api/images/${id}`, { method: "DELETE" });
+
+    getImages();
+  }
+
   return {
     provide: {
       file: {
         getImages,
         uploadImage,
+        deleteImage,
         images,
       },
     },
