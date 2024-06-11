@@ -18,7 +18,7 @@ useSeoMeta({
   description,
   ogDescription: description,
   ogSiteName: "NuxtHub image gallery template",
-  ogImage: "https://image-gallery.nuxt.dev/social-card.png",
+  ogImage: "https://nuxtd-gallery.netlify.app/social-card.png",
   twitterCard: "summary_large_image",
 });
 
