@@ -50,7 +50,7 @@ router.afterEach(async (to, _) => {
 
 <template>
   <div
-    class="bg-black/10 backdrop-blur-md top-0 h-[68px] absolute overflow-hidden w-screen"
+    class="bg-black/10 backdrop-blur-md top-0 h-[68px] absolute overflow-hidden w-full"
   >
     <ul
       v-if="images && images.length"

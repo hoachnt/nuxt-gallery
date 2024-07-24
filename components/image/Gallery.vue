@@ -1,10 +1,6 @@
 <template>
   <div>
-    <section
-      v-if="images"
-      class="relative h-screen gap-[22px] p-4"
-      ref="dropZoneRef"
-    >
+    <section v-if="images" class="relative gap-[22px] p-4" ref="dropZoneRef">
       <USlideover
         v-model="isOpen"
         class="flex items-center justify-center"
