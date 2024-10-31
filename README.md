@@ -27,7 +27,6 @@ This project is designed to create an image gallery using Nuxt.js integrated wit
 -   [NuxtUI](https://ui.nuxt.com/getting-started) - A UI Library for Modern Web Apps
 -   [Nuxt Fonts](https://github.com/nuxt/fonts) - Plug-and-play custom web font optimization and configuration for Nuxt apps.
 -   [VueUse](https://github.com/antfu/vueuse) - Collection of useful composition APIs
--   [ESLint](https://eslint.org/) with [@nuxt/eslint-config](https://github.com/nuxt/eslint), single quotes, no semi
 -   [TypeScript](https://www.typescriptlang.org/)
 
 ## Getting Started
